@@ -63,19 +63,19 @@ export default function BookDetails() {
     e.preventDefault();
     if (!session) return;
 
-    // ১. সার্ভার রেসপন্সের অপেক্ষা না করে তাৎক্ষণিকভাবে লোকাল স্টেটের কপি ১টি কমিয়ে দেওয়া হলো (Optimistic Update)
+   
     const previousBookState = book;
     setBook((prev) => ({
       ...prev,
       copies: Number(prev.copies) - 1,
     }));
 
-    // ২. সাথে সাথে মোডাল বন্ধ করে দেওয়া হলো যাতে ইউজার কোনো ল্যাগ ফিল না করে
+    
     setShowModal(false);
     setBorrowing(true);
 
     try {
-      // ৩. ব্যাকগ্রাউন্ডে সার্ভারে রিকোয়েস্ট পাঠানো হচ্ছে
+      
       await borrowsApi.borrow({
         bookId: book._id,
         bookTitle: book.title,
@@ -88,7 +88,7 @@ export default function BookDetails() {
         `"${book.title}" is yours until ${formatDate(returnDate)}!`,
       );
     } catch (err) {
-      // যদি সার্ভারে কোনো এরর হয়, তবে আগের সঠিক ডেটা ফিরিয়ে আনা হবে
+     
       setBook(previousBookState);
       toast.error(err.message || "Borrowing failed. Please try again.");
     } finally {

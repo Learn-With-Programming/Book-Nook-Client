@@ -24,7 +24,7 @@ export default function AddBookForm() {
   const [image, setImage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // মেমোরি লিক রোধ করতে আগের প্রিভিউ অবজেক্ট ইউআরএল ক্লিনআপ করার ইফেক্ট
+  
   useEffect(() => {
     return () => {
       if (image?.preview) {
@@ -45,7 +45,7 @@ export default function AddBookForm() {
       e.target.value = "";
       return;
     }
-    // পুরোনো প্রিভিউ থাকলে তা রিমুভ করে নতুন প্রিভিউ সেট করা
+    
     if (image?.preview) {
       URL.revokeObjectURL(image.preview);
     }
@@ -64,7 +64,7 @@ export default function AddBookForm() {
     }
     setSubmitting(true);
     try {
-      // ১. ইমেজ আপলোড ও ডাটাবেস সেভ ব্যাকগ্রাউন্ডে প্রসেস হবে
+      
       const imageUrl = await uploadToImgbb(image.file);
       await booksApi.create({
         title: form.title.trim(),

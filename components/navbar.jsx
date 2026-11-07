@@ -24,11 +24,18 @@ export default function Navbar() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const hamburgerRef = useRef(null);
 
   useEffect(() => {
     function onDocumentClick(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target))
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        hamburgerRef.current &&
+        !hamburgerRef.current.contains(e.target)
+      ) {
         setMenuOpen(false);
+      }
     }
     function onEscape(e) {
       if (e.key === "Escape") setMenuOpen(false);
@@ -195,6 +202,7 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
+            ref={hamburgerRef}
             className="btn btn-ghost btn-circle lg:hidden"
             aria-label="Open menu"
             aria-expanded={menuOpen}
@@ -232,7 +240,6 @@ export default function Navbar() {
           ref={menuRef}
           className="absolute inset-x-0 top-full border-b border-base-300 bg-base-100 p-4 shadow-lg lg:hidden"
         >
-          <div className="divider mt-0 before:text-base-300 after:text-base-300" />
           <ul className="space-y-1">
             {links.map((link) => (
               <li key={link.href}>
@@ -246,17 +253,17 @@ export default function Navbar() {
               </li>
             ))}
             {!session && (
-              <li className="mt-2 flex gap-2">
+              <li className="mt-3 flex gap-2 pt-2 border-t border-base-300">
                 <Link
                   href="/login"
-                  className="btn btn-ghost flex-1"
+                  className="btn btn-ghost flex-1 rounded-full"
                   onClick={() => setMenuOpen(false)}
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="btn btn-primary flex-1"
+                  className="btn btn-primary flex-1 rounded-full"
                   onClick={() => setMenuOpen(false)}
                 >
                   Register
